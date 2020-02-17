@@ -3,7 +3,7 @@ pipeline{
     stages{
         stage("Checkout, Build and Run"){
 			steps{
-				withDockerRegistry(credentialsId: '385920f9-ab69-4f00-a422-d9065c136a43', url: 'evyatare92/world-of-games') {
+				withDockerRegistry(credentialsId: '385920f9-ab69-4f00-a422-d9065c136a43', url: 'https://hub.docker.com') {
 					step([$class: 'DockerComposeBuilder', dockerComposeFile: 'docker-compose.yml', option: [$class: 'StartAllServices'], useCustomDockerComposeFile: false])
 				}
 			}
