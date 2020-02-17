@@ -16,7 +16,7 @@ pipeline{
         stage("Test"){
 			steps{
 				script{
-					def result = sh script: 'python /tests/e2e.py'
+					def result = sh script: 'python tests/e2e.py'
 					if(result == -1){
 						error "invalid score"
 					}
