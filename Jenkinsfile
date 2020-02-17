@@ -9,7 +9,9 @@ pipeline{
 			}
         }
 		stage("Build and Run"){
-			sh script: "docker-compose up"
+			steps{
+				sh script: "docker-compose up"
+			}
 		}
         stage("Test"){
 			steps{
