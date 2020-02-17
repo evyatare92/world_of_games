@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  world_of_games:
+    image: evyatare92/world-of-games
+    build: .
+    ports:
+      - 8777:80
+    restart: always
