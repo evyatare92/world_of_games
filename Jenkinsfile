@@ -1,13 +1,16 @@
 pipeline{
     agent any
     stages{
-        stage("Checkout, Build and Run"){
+        stage("Checkout"){
 			steps{
-				withDockerRegistry(credentialsId: '385920f9-ab69-4f00-a422-d9065c136a43', url: 'https://hub.docker.com') {
-					step([$class: 'DockerComposeBuilder', dockerComposeFile: 'docker-compose.yml', option: [$class: 'StartAllServices'], useCustomDockerComposeFile: false])
+				withCredentials([usernamePassword(credentialsId: 'docker-hub',usernameVariable: 'DOCKERHUB_USER',passwordVariable: 'DOCKERHUB_PASSWORD')]){
+					sh script: "docker login -u  ${DOCKERHUB_USER} -p ${DOCKERHUB_PASSWORD}"
 				}
 			}
         }
+		stage("Build and Run"){
+			sh script: "docker-compose up"
+		}
         stage("Test"){
 			steps{
 				script{
@@ -20,7 +23,6 @@ pipeline{
         }
         stage("Finalize"){
 			steps{
-				step([$class: 'DockerComposeBuilder', dockerComposeFile: 'docker-compose.yml', option: [$class: 'StopAllServices'], useCustomDockerComposeFile: false])
 				sh script: 'docker-compose push'
 			}
         }
